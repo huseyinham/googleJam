@@ -2,7 +2,7 @@ class UniverseImplode {
 
     def fileContents = []
 
-    void code() {
+    void mainProcess() {
         readFromFile()
         println fileContents
         def numberOfCases = fileContents.get(0) as int
@@ -10,19 +10,26 @@ class UniverseImplode {
         for (int i = 1; i <= numberOfCases; i++) {
             def centralSystems = populateListOfCentralSystems()
             def queries = populateListOfQueries()
-            Set hsCentral = []
-            def count = 0
-            for (String query : queries) {
-                if (!hsCentral.toString().contains(query)) {
-                    hsCentral.add(query)
-                    if(hsCentral.size() == centralSystems.size()){
-                        count++
-                        hsCentral.clear()
-                    }
-                }
-            }
+            int count = calculateCountForCase(queries, centralSystems)
             println("Case #$i: $count")
         }
+    }
+
+    protected int calculateCountForCase(List<String> queries, List<String> centralSystems) {
+        Set hsUsedCentralSystems = []
+        def count = 0
+        def counter = 0
+        for (String query : queries) {
+            counter++
+            if (!hsUsedCentralSystems.contains(query)) {
+                if (hsUsedCentralSystems.size() == centralSystems.size() - 1) {
+                    hsUsedCentralSystems.clear()
+                    count++
+                }
+                hsUsedCentralSystems.add(query)
+            }
+        }
+        count
     }
 
     private List<String> populateListOfCentralSystems() {
@@ -43,18 +50,20 @@ class UniverseImplode {
         for (int i = 0; i < numberOfQueries; i++) {
             listOfQueriedSearchEngines.add(fileContents.get(i))
         }
-        removeElements(numberOfQueries - 1)
+        if (numberOfQueries > 0)
+            removeElements(numberOfQueries - 1)
+
         return listOfQueriedSearchEngines
     }
 
-    void removeElements(int linesToRemove) {
+    private void removeElements(int linesToRemove) {
         0.upto(linesToRemove) {
             fileContents.remove(0)
         }
     }
 
     private Collection readFromFile() {
-        new File("src/main/resources/universeImplode.txt").eachLine {
+        new File("src/main/resources/A-small-practice.in").eachLine {
             line -> fileContents += "$line"
         }
     }
@@ -62,7 +71,7 @@ class UniverseImplode {
     static class runner {
         static void main(String[] args) {
             UniverseImplode universeImplode = new UniverseImplode()
-            universeImplode.code()
+            universeImplode.mainProcess()
         }
     }
 }
