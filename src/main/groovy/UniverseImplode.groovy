@@ -19,13 +19,10 @@ class UniverseImplode {
         Set hsUsedCentralSystems = []
         def count = 0
         for (String query : queries) {
-            println(hsUsedCentralSystems)
-            println(query)
             if (!hsUsedCentralSystems.contains(query)) {
                 if (hsUsedCentralSystems.size() == centralSystems.size() - 1) {
                     hsUsedCentralSystems.clear()
                     count++
-                    println(count)
                 }
                 hsUsedCentralSystems.add(query)
             }
