@@ -18,13 +18,14 @@ class UniverseImplode {
     protected int calculateCountForCase(List<String> queries, List<String> centralSystems) {
         Set hsUsedCentralSystems = []
         def count = 0
-        def counter = 0
         for (String query : queries) {
-            counter++
+            println(hsUsedCentralSystems)
+            println(query)
             if (!hsUsedCentralSystems.contains(query)) {
                 if (hsUsedCentralSystems.size() == centralSystems.size() - 1) {
                     hsUsedCentralSystems.clear()
                     count++
+                    println(count)
                 }
                 hsUsedCentralSystems.add(query)
             }
